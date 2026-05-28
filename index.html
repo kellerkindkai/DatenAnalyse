@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Datenanalyse</title>
+  <style>
+    #container {
+      width: 250px;
+      height: 30px;
+      text-align: center;
+      /* border: 1px solid #ccc; */
+    }
+
+    #progress {
+      width: 0%;
+      height: 100%;
+      background-color: aqua;
+      color: black;
+    }
+    textarea {
+      background-color: black;
+      color: aqua;
+      text-align: right;
+      overflow: hidden;
+      resize: none;
+      
+    }
+    
+  </style>
+</head>
+<body>
+
+<h2 id="myh1">Daten werden analysiert...</h2>
+
+<div id="container">
+  <div id="progress"></div>
+</div>
+<br>
+
+<button id="start" onclick="start()">Start</button>
+<button id="exit" onclick="exit()">Exit</button>
+<input type="checkbox" id="chkboxLog">Log Data</input>
+<input type="checkbox" id="chkboxShowData">Show Data</input>
+<br>
+<textarea id="output" rows="15" cols="10"></textarea>
+<textarea id="output1" rows="15" cols="22"></textarea>
+
+<script>
+let count = 0
+
+function start() {
+  count++;
+  let value = 0;
+  let myInterval = Math.round(Math.random()*500);
+  let delta = 10*Math.random();
+  let bigString = "";
+  let bigString1 = "";
+  const progress = document.getElementById("progress");
+  const button = document.getElementById("button");
+  const chkboxLog = document.getElementById("chkboxLog");
+  const chkboxShowData = document.getElementById("chkboxShowData");
+  const mydebug = document.getElementById("myh1");
+  const myOutput = document.getElementById("output");
+  const myOutput1 = document.getElementById("output1");
+    
+  //mydebug.textContent = "Daten werden analysiert..." + "(" + myInterval.toString() + '/'+ count.toString();
+  mydebug.textContent +=  '/'+ delta.toFixed(2).toString();
+  mydebug.textContent +=  ')';
+  mydebug.textContent = "Daten werden analysiert...";
+  const interval = setInterval(() => {
+    //value++;
+    value += delta
+
+    if (value >= 100) {
+      value = 100;
+      clearInterval(interval);
+      console.clear();
+      myOutput.textContent = "";
+      myOutput1.textContent = "";
+
+      start();
+    }
+
+    progress.style.width = value + "%";
+    progress.textContent = value.toFixed(0) + "%";
+    let a = parseInt(255*Math.random());
+    let b = parseInt(1048578*Math.random());
+    if (chkboxLog.checked) {console.log(a, b)};
+
+    if (chkboxShowData.checked) {
+      bigString = a.toString(2).padStart(8, '0') + "\n" + bigString;
+      bigString1 = b.toString(2).padStart(20, '0') + "\n" + bigString1;
+      myOutput.textContent = bigString;
+      myOutput1.textContent = bigString1;
+    }
+
+    
+
+  }, myInterval);
+}
+
+function exit(){
+  location.reload();
+}
+</script>
+
+</body>
+</html>
